@@ -4,10 +4,17 @@
 #
 server.name: kibana
 server.host: 0.0.0.0
-elasticsearch.hosts: [ "http://elasticsearch:9200" ]
+elasticsearch.hosts: [ "https://elasticsearch:9200" ]
 monitoring.ui.container.elasticsearch.enabled: true
 
 ## X-Pack security credentials
 #
 elasticsearch.username: elastic
 elasticsearch.password: changeme
+
+#SSL
+server.ssl.enabled: true
+server.ssl.keystore.path: "/usr/share/kibana/config/elastic-certificates.p12"
+server.ssl.keystore.password: ""
+elasticsearch.ssl.certificateAuthorities: [ "/usr/share/kibana/config/elastic-stack-ca.p12" ]
+elasticsearch.ssl.verificationMode: none

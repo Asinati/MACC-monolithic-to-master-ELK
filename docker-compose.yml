@@ -8,6 +8,9 @@ services:
         ELK_VERSION: $ELK_VERSION
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,z
+      - ./elasticsearch/certs/elastic-certificates.p12:/usr/share/elasticsearch/config/elastic-certificates.p12
+      - ./elasticsearch/certs/elastic-stack-ca.p12:/usr/share/elasticsearch/config/elastic-stack-ca.p12
+      - ./certs/elasticsearch/http.p12:/usr/share/elasticsearch/config/http.p12
       - elasticsearch:/usr/share/elasticsearch/data:z
     ports:
       - "9200:9200"
@@ -28,6 +31,10 @@ services:
         ELK_VERSION: $ELK_VERSION
     volumes:
       - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,z
+      - ./elasticsearch/certs/elastic-certificates.p12:/usr/share/kibana/config/elastic-certificates.p12
+      - ./elasticsearch/certs/elastic-stack-ca.p12:/usr/share/kibana/config/elastic-stack-ca.p12
+      - ./kibana/certs/kibana.keystore:/usr/share/kibana/config/kibana.keystore
+      - ./kibana/certs/kibana-certificates.p12:/usr/share/kibana/config/kibana-certificates.p12
     ports:
       - "5601:5601"
     networks:
@@ -38,6 +45,8 @@ services:
 networks:
   elk:
     driver: bridge
+    driver_opts:
+      com.docker.network.bridge.enable_icc: "true"
 
 volumes:
   elasticsearch:
